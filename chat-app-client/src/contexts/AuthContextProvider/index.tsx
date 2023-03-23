@@ -7,6 +7,12 @@ export interface IUserInfo {
   email: string;
 }
 
+export const initialUser: IUserInfo = {
+  id: "",
+  username: "",
+  email: "",
+};
+
 export const AuthContext = createContext<{
   authenticated: boolean;
   setAuthenticated: (authenticated: boolean) => void;
@@ -15,11 +21,7 @@ export const AuthContext = createContext<{
 }>({
   authenticated: false,
   setAuthenticated: () => {},
-  user: {
-    id: "",
-    username: "",
-    email: "",
-  },
+  user: initialUser,
   setUser: () => {},
 });
 
@@ -29,11 +31,7 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState<IUserInfo>({
-    id: "",
-    username: "",
-    email: "",
-  });
+  const [user, setUser] = useState<IUserInfo>(initialUser);
   const route = useRouter();
 
   useEffect(() => {

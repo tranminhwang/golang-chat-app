@@ -23,6 +23,7 @@ function Login() {
         password: passwordInput,
       });
       localStorage.setItem("user_info", JSON.stringify(userInfo));
+      localStorage.setItem("access_token", accessToken);
       return route.push("/");
     } finally {
       setLoading(false);

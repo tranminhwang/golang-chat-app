@@ -1,10 +1,30 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useState } from "react";
+import { PrimaryButton } from "@/components/shared/Button";
+import Room, { IRoom } from "@/components/Room";
+import { createRoom } from "../services";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const [rooms, setRooms] = useState<IRoom[]>([]);
+
+  const onCreateRoom = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const roomName = e.currentTarget.roomName.value;
+    if (!roomName) return;
+
+    try {
+      setLoading(true);
+      const newRoom = await createRoom({
+        name: roomName,
+        id: crypto.randomUUID(),
+      });
+      setRooms((prevRooms) => [newRoom, ...prevRooms]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -13,7 +33,26 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen w-screen bg-gray-700"></main>
+      <main className="w-full min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="py-12 border-b border-white sticky top-0 z-10 bg-gray-100 dark:bg-gray-900">
+          <form className="flex justify-center gap-4" onSubmit={onCreateRoom}>
+            <input
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Room name"
+              type="text"
+              name="roomName"
+              required
+              autoFocus
+            />
+            <PrimaryButton disabled={loading}>Create room</PrimaryButton>
+          </form>
+        </div>
+        <div className="container flex-1 mx-auto grid grid-cols-4 gap-8 py-8">
+          {rooms.map((room) => (
+            <Room key={crypto.randomUUID()} {...room} />
+          ))}
+        </div>
+      </main>
     </>
   );
 }
