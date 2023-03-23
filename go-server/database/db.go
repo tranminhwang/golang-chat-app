@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
+	"os"
 )
 
 type Database struct {
@@ -10,7 +11,7 @@ type Database struct {
 }
 
 func NewDatabase() (*Database, error) {
-	db, err := sql.Open("postgres", "postgres://gbylsgde:E3e-rtfcqUHvnwqIbER9VAQpmnJ7J7-M@tiny.db.elephantsql.com/gbylsgde")
+	db, err := sql.Open("postgres", os.Getenv("DATA_SOURCE_NAME"))
 	if err != nil {
 		return nil, err
 	}

@@ -11,6 +11,8 @@ func InitRouter(userHandler *user.Handler) {
 	r = gin.Default()
 
 	r.POST("/api/v1/auth/register", userHandler.CreateUser)
+	// middleware.ValidateToken
+	r.POST("/api/v1/auth/login", userHandler.UserLogin)
 }
 
 func Start(addr string) error {

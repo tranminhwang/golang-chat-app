@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
 	"go-server/database"
 	"go-server/internal/user"
 	"go-server/router"
@@ -8,6 +9,7 @@ import (
 )
 
 func main() {
+	godotenv.Load()
 	dbConn, err := database.NewDatabase()
 	if err != nil {
 		log.Fatalf("Could not initialize database connection: %s", err)
