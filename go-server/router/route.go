@@ -17,7 +17,7 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler) {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{os.Getenv("CLIENT_URL")},
 		AllowMethods:     []string{"GET", "POST"},
-		AllowHeaders:     []string{"Content-Type"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
