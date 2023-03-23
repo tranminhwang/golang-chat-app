@@ -52,7 +52,7 @@ func (s *service) UserLogin(c context.Context, req *LoginRequest) (*CreateUserRe
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
 
-	user, _ := s.Repository.UserLogin(ctx, req.Email)
+	user, _ := s.Repository.GetUserByEmail(ctx, req.Email)
 	if user.ID == 0 {
 		return nil, fmt.Errorf("user not found")
 	}

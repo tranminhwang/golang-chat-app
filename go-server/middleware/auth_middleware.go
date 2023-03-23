@@ -34,11 +34,10 @@ func ValidateToken(c *gin.Context) {
 			})
 			return
 		}
-		c.Set("user", map[string]string{
-			"email":    claims["email"].(string),
-			"username": claims["username"].(string),
-			"sub":      claims["sub"].(string),
-		})
+		//c.Set("user", map[string]string{
+		//	"email": claims["email"].(string),
+		//	"sub":   claims["sub"].(string),
+		//})
 		c.Next()
 	} else {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{

@@ -28,7 +28,7 @@ type LoginRequest struct {
 
 type Repository interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
-	UserLogin(ctx context.Context, email string) (*User, error)
+	GetUserByEmail(ctx context.Context, email string) (*User, error)
 }
 
 type Service interface {

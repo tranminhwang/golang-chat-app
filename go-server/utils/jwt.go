@@ -7,18 +7,25 @@ import (
 	"time"
 )
 
-type TokenPayload struct {
+type JWTClaims struct {
 	ID       string `json:"id"`
-	Email    string `json:"email"`
+	Username string `json:"username"`
+	jwt.RegisteredClaims
+}
+
+type JWTPayload struct {
+	ID       string `json:"id"`
 	Username string `json:"username"`
 }
 
-func CreateToken(p TokenPayload) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":      p.ID,
-		"email":    p.Email,
-		"username": p.Username,
-		"exp":      float64(time.Now().Add(time.Hour * 24).Unix()),
+func CreateToken(p JWTPayload) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, JWTClaims{
+		ID:       p.ID,
+		Username: p.Username,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    p.ID,
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
+		},
 	})
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 
