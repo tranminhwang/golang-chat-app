@@ -87,6 +87,7 @@ func (h *Handler) UserLogin(c *gin.Context) {
 		"accessToken": tokenString,
 		"email":       res.Email,
 		"username":    res.Username,
+		"id":          res.ID,
 	})
 }
 
