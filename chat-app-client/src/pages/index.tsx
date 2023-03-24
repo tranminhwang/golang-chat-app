@@ -1,12 +1,12 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PrimaryButton } from "@/components/shared/Button";
-import Room, { IRoom } from "@/components/Room";
-import { createRoom } from "../services";
+import RoomItem, { IRoomItem } from "@/components/RoomItem";
+import { createRoom, getRooms } from "@/services";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [rooms, setRooms] = useState<IRoom[]>([]);
+  const [rooms, setRooms] = useState<IRoomItem[]>([]);
 
   const onCreateRoom = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +24,14 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const rooms = await getRooms();
+      setRooms(rooms);
+    };
+    fetchRooms();
+  }, []);
 
   return (
     <>
@@ -49,7 +57,7 @@ export default function Home() {
         </div>
         <div className="container flex-1 mx-auto grid grid-cols-4 gap-8 py-8">
           {rooms.map((room) => (
-            <Room key={crypto.randomUUID()} {...room} />
+            <RoomItem key={crypto.randomUUID()} {...room} />
           ))}
         </div>
       </main>

@@ -21,3 +21,33 @@ export const createRoom = async (payload: ICreateRoomPayload): Promise<any> => {
     throw new Error("failed to login");
   }
 };
+
+export const getRooms = async (): Promise<any> => {
+  const res = await fetch(`${API_URL}/ws/get_rooms`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+    credentials: "include",
+  });
+  if (res.ok) {
+    return await res.json();
+  }
+  throw new Error("failed to get rooms");
+};
+
+export const getUsers = async (roomId: string): Promise<any> => {
+  const res = await fetch(`${API_URL}/ws/get_clients/${roomId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+    credentials: "include",
+  });
+  if (res.ok) {
+    return await res.json();
+  }
+  throw new Error("failed to get users");
+};
