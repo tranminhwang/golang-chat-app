@@ -26,7 +26,7 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case cl := <-h.Register:
-			if _, ok := h.Rooms[cl.ID]; ok {
+			if _, ok := h.Rooms[cl.RoomID]; ok {
 				r := h.Rooms[cl.RoomID]
 				if _, ok := r.Clients[cl.ID]; !ok {
 					r.Clients[cl.ID] = cl

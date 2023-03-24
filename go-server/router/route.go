@@ -39,7 +39,7 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler) {
 	}
 
 	wsRoutes := r.Group("/ws")
-	wsRoutes.Use(middleware.ValidateToken)
+	// wsRoutes.Use(middleware.ValidateToken)
 	{
 		wsRoutes.POST("/create_room", wsHandler.CreateRoom)
 		wsRoutes.GET("/join_room/:roomId", wsHandler.JoinRoom)
